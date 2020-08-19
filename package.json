@@ -1,8 +1,8 @@
 {
-  "name": "NodeAndTypescript",
+  "name": "proffy_api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/pereira4ngel/NodeProject.git",
+  "repository": "https://github.com/full-stackers/proffy-api",
   "author": "Angel Pereira <angel.sp06@gmail.com>",
   "license": "MIT",
   "dependencies": {

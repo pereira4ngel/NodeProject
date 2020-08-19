@@ -18,7 +18,7 @@ export default class ClassesController {
 
         if(!filters.subject || !filters.week_day || !filters.time){
             return response.status(400).json({
-                error: 'Missing filters to search'
+                error: 'Missing filters to search classes'
             })
         }
 
@@ -37,25 +37,23 @@ export default class ClassesController {
         .join('users', 'classes.user_id', '=', 'users.id')
         .select(['classes.*', 'users.*'])
 
-        return response.json(classes)
+        return response.send(classes)
     }
 
-
-    async create (request: Request, response: Response){
-     
-    const {
-        name,
-        avatar,
-        whatsapp,
-        bio,
-        subject,
-        cost,
-        schedule
-    } = request.body
+    async create (request: Request, response: Response) {
+        const {
+            name,
+            avatar,
+            whatsapp,
+            bio,
+            subject,
+            cost,
+            schedule
+        } = request.body
 
     const transaction = await db.transaction()
 
-    try { 
+    try {
         const insertIds = await transaction('users').insert({
             name,
             avatar,
@@ -81,17 +79,17 @@ export default class ClassesController {
                 to: convertHourToMinutes(scheduleItem.to)
             }
         })
-        
-        await transaction('class_schedule').insert(classSchedule)
 
+        await transaction('class_schedule').insert(classSchedule)
         await transaction.commit()
+
         return response.status(201).send()
     } catch (err) {
         console.error(err)
         await transaction.rollback()
         return response.status(400).json({
-            error: 'unexpected error while creating new class'
+            error: 'Unexpected error while creating new class'
         })
     }
-  }   
+  }
 }
