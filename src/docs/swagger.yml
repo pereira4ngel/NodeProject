@@ -1,0 +1,150 @@
+swagger: "2.0"
+info:
+  description: "Desenvolvimento do desafio Proffy da Rocketseat - Next Level Week. A API criada nas tecnologias NodeJS e Typescript tem por objetivo criar agendamentos de aulas, adicionar informações referente as aulas, disciplina e custo. É possível também, buscar as aulas cadastradas e conexões."
+  version: "1.0.0"
+  title: "API - Proffy"
+basePath: "/v2"
+tags:
+- name: "classes"
+  description: ""
+- name: "connections"
+  description: ""
+schemes:
+- "https"
+- "http"
+paths:
+  /classes:
+    get:
+      tags:
+      - "classes"
+      summary: "Lista todas as aulas agendadas"
+      description: "Para buscar todas as aulas agendadas é necessário filtrar os dados com o conjunto de chave e valor: time, week_day, subject"
+      operationId: "class_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/totalClasses"
+      responses:
+        "201":
+          description: "Success"
+        "400":
+          description: "Missing filters to search"
+    post:
+      tags:
+      - "classes"
+      summary: "Cria uma nova aula"
+      description: "Cria e agenda uma nova aula com informações do alun@, horário das aulas, custo e disciplina"
+      operationId: "updatePet"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/classes"
+      responses:
+        "200":
+          description: "Success"
+        "400":
+          description: "Unexpected error while creating new class"
+  /connections:
+    get:
+      tags:
+      - "connections"
+      summary: "Lista o total de conexões realizadas"
+      description: "Retorna o total de conexões"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/totalConnections"
+    post:
+      tags:
+      - "connections"
+      summary: "Cria um conexão"
+      description: "Cria uma nova conexão de interatividade"
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/connections"
+      responses:
+        "200":
+          description: "Success"
+        "405":
+          description: "Validation exception"
+definitions:
+  classes:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+        description: "Nome d@ alun@"
+      avatar:
+        type: "string"
+        format: "string"
+        description: "url da imagem do avatar"
+      whatsapp:
+        type: "string"
+        format: "string"
+        description: "número de contato do app whatsapp"
+      bio:
+        type: "string"
+        format: "string"
+        description: "descrição do perfil d@ alun@"
+      subject:
+        type: "string"
+        format: "string"
+      cost:
+        type: "number"
+        format: "number"
+        default: 0
+  connections:
+    type: "object"
+    properties:
+      user_id:
+        type: "integer"
+        format: "int64"
+  totalConnections:
+    type: "object"
+    properties:
+      total:
+        type: "integer"
+        format: "int64"
+  totalClasses:
+    type: "object"
+    properties:
+      time:
+        type: "string"
+        format: "string"
+        description: "filtragem pelo horário de agendamento"
+      week_day:
+        type: "number"
+        format: "number"
+        description: "número referente ao dia da semana para filtragem"
+      subject:
+        type: "string"
+        format: "string"
+        description: "filtragem por nome da disciplina"
